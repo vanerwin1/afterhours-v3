@@ -1,0 +1,5 @@
+# Keep the API key out of git
+.env
+*.env
+node_modules/
+.DS_Store

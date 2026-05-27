@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AfterHours.AI — v3 Ultra</title>
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#000507; font-family:'DM Sans','Helvetica Neue',sans-serif; }
+    #root { min-height:100vh; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + Babel via CDN — no build step needed -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect, useRef, useCallback } = React;
+
+    // ─── Paste the full contents of App.jsx here ───
+    // (everything except the import line at the top and the "export default" keyword)
+    // Then at the bottom, add:
+    //   ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    //
+    // See App.jsx for the full source.
+    //
+    // Quick test: replace this comment block with the App.jsx source,
+    // remove "import { ... } from 'react';" from the top,
+    // change "export default function App()" to "function App()",
+    // and add the ReactDOM line at the very bottom.
+  </script>
+
+  <script type="text/babel" data-presets="react" src="./App.jsx?raw"></script>
+  <script>
+    // Fallback mount — works when App is loaded via the babel script above
+    // If using the CDN approach, just inline App.jsx content inside a <script type="text/babel"> block
+  </script>
+</body>
+</html>
