@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     description: 'AI voice agent that answers calls, books appointments, and captures leads 24/7. Setup in 24 hours. No credit card required.',
     siteName: 'AfterHours.AI',
     locale: 'en_US',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'AfterHours.AI — AI Phone Answering & Booking for Small Businesses',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AfterHours.AI — AI Phone Answering',
     description: 'AI voice agent that answers calls, books appointments, and captures leads 24/7.',
     site: '@afterhoursai',
+    images: ['/opengraph-image'],
   },
   robots: { index: true, follow: true },
   alternates: {

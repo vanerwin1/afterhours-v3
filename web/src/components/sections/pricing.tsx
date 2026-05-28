@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 type Plan = {
@@ -244,7 +245,7 @@ function PlanCard({
       <ul className="space-y-2.5 mt-auto">
         {plan.features.map((f) => (
           <li key={f} className="flex items-start gap-2.5 text-sm text-[#a8c0d8]">
-            <span className="text-[#22d3a0] mt-0.5 shrink-0">✓</span>
+            <Check size={14} strokeWidth={2.5} className="text-[#22d3a0] mt-0.5 shrink-0" />
             {f}
           </li>
         ))}

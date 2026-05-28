@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { Check } from 'lucide-react'
 import { SplineScene } from '@/components/ui/spline'
 import { Spotlight } from '@/components/ui/spotlight'
 import { Card } from '@/components/ui/card'
@@ -200,18 +201,23 @@ export function SplineHero({
             </div>
 
             {/* Trust micro-copy */}
-            <motion.p
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.9 }}
-              className="mt-6 text-xs text-[#4a6280] flex items-center gap-2"
+              className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2"
             >
-              <span className="text-[#22d3a0]">✓</span> No credit card required
-              <span className="text-[#4a6280] mx-1">·</span>
-              <span className="text-[#22d3a0]">✓</span> Live in 24 hours
-              <span className="text-[#4a6280] mx-1">·</span>
-              <span className="text-[#22d3a0]">✓</span> 30-day guarantee
-            </motion.p>
+              {[
+                'No credit card required',
+                'Live in 24 hours',
+                '30-day guarantee',
+              ].map((text) => (
+                <span key={text} className="flex items-center gap-1.5 text-xs text-[#4a6280]">
+                  <Check size={12} strokeWidth={2.5} className="text-[#22d3a0] shrink-0" />
+                  {text}
+                </span>
+              ))}
+            </motion.div>
           </div>
 
           {/* ── RIGHT: Spline 3D Card ── */}

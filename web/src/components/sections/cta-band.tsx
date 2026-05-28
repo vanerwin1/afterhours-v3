@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { Check } from 'lucide-react'
 
 export function CTABand() {
   return (
@@ -98,12 +99,13 @@ export function CTABand() {
           className="flex flex-wrap justify-center gap-6 text-sm text-[#4a6280]"
         >
           {[
-            '✓ No credit card required',
-            '✓ Live in 24 hours',
-            '✓ 30-day money-back guarantee',
-            '✓ Cancel anytime',
+            'No credit card required',
+            'Live in 24 hours',
+            '30-day money-back guarantee',
+            'Cancel anytime',
           ].map((b) => (
             <span key={b} className="flex items-center gap-1.5">
+              <Check size={14} strokeWidth={2.5} className="text-[#22d3a0] shrink-0" />
               {b}
             </span>
           ))}

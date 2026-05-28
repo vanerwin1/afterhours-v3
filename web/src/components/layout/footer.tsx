@@ -92,8 +92,8 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-6">
             {[
-              { label: 'Privacy Policy',    href: 'mailto:hello@afterhours.ai?subject=Privacy Policy' },
-              { label: 'Terms of Service',  href: 'mailto:hello@afterhours.ai?subject=Terms of Service' },
+              { label: 'Privacy Policy',    href: '/privacy' },
+              { label: 'Terms of Service',  href: '/terms' },
               { label: 'HIPAA Compliance',  href: 'mailto:hello@afterhours.ai?subject=HIPAA Compliance' },
             ].map(({ label, href }) => (
               <a

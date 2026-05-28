@@ -5,6 +5,8 @@ import { PainStrip }        from '@/components/sections/pain-strip'
 import { HowItWorks }       from '@/components/sections/how-it-works'
 import { Industries }       from '@/components/sections/industries'
 import { ROICalculator }    from '@/components/sections/roi-calculator'
+import { DemoTranscript }   from '@/components/sections/demo-transcript'
+import { Comparison }       from '@/components/sections/comparison'
 import { Testimonials }     from '@/components/sections/testimonials'
 import { Pricing }          from '@/components/sections/pricing'
 import { FAQ }              from '@/components/sections/faq'
@@ -35,8 +37,10 @@ export default function HomePage() {
         className="min-h-0 bg-transparent"
       >
         <HowItWorks />
+        <DemoTranscript />
         <Industries />
         <ROICalculator />
+        <Comparison />
         <Testimonials />
         <Pricing />
         <FAQ />
