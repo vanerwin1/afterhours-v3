@@ -23,10 +23,24 @@ PORT    = int(sys.argv[1]) if len(sys.argv) > 1 else 3333
 HOST    = "127.0.0.1"      # localhost only; use ngrok to share publicly
 WEBROOT = os.path.dirname(os.path.abspath(__file__))
 
+# Wix domains allowed to embed (iframe) this app.
+# Wix wraps an embedded external URL in an iframe served from these hosts, so they
+# must be permitted by `frame-ancestors` or the embed shows a blank box.
+# ⚠️  Once the Glow Vault Wix site is published on a custom domain, add it here,
+#     e.g.  "https://www.yourdomain.com https://yourdomain.com".
+WIX_FRAME_ANCESTORS = (
+    "https://*.wixsite.com "    # published free Wix sites
+    "https://*.wix.com "        # Wix editor / preview
+    "https://*.editorx.com "    # Editor X
+    "https://*.wixstudio.com "  # Wix Studio
+    "https://*.filesusr.com"    # Wix HTML-embed sandbox host
+)
+
 # Security headers added to every response
 SECURITY_HEADERS = {
-    # Prevent clickjacking
-    "X-Frame-Options": "SAMEORIGIN",
+    # NOTE: Clickjacking is controlled below via CSP `frame-ancestors`, which
+    # (unlike X-Frame-Options) can allow-list multiple origins. X-Frame-Options
+    # is intentionally omitted — setting it to SAMEORIGIN would block Wix.
     # Stop MIME-type sniffing
     "X-Content-Type-Options": "nosniff",
     # Basic XSS filter (legacy browsers)
@@ -52,7 +66,7 @@ SECURITY_HEADERS = {
         "frame-src https://prod.spline.design https://js.stripe.com https://hooks.stripe.com; "
         "media-src 'self' blob:; "
         "worker-src blob:; "
-        "frame-ancestors 'none';"
+        f"frame-ancestors 'self' {WIX_FRAME_ANCESTORS};"
     ),
     # Cache HTML files briefly; let browsers cache assets longer
     "Cache-Control": "no-cache",
