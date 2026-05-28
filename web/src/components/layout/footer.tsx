@@ -22,7 +22,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-[#7a94b8] leading-relaxed max-w-xs">
-              AI-powered phone answering and appointment booking that works while you don't.
+              AI-powered phone answering and appointment booking that works while you don&apos;t.
               Never miss another lead, no matter the hour.
             </p>
             <div className="flex items-center gap-2 mt-5">

@@ -87,7 +87,7 @@ export function Industries() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="text-center mt-8 text-xs text-[#4a6280]"
         >
-          Don't see your industry?{' '}
+          Don&apos;t see your industry?{' '}
           <a href="mailto:hello@afterhours.ai" className="text-[#4f8ef7] hover:underline">
             We likely support it →
           </a>
