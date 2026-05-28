@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { ArrowLeft, PhoneOff } from 'lucide-react'
 
 export default function NotFound() {
@@ -35,7 +36,7 @@ export default function NotFound() {
         </p>
 
         {/* CTA */}
-        <a
+        <Link
           href="/"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl
                      bg-gradient-to-r from-[#4f8ef7] to-[#1a56db] text-white
@@ -46,7 +47,7 @@ export default function NotFound() {
         >
           <ArrowLeft size={16} strokeWidth={2} />
           Back to home
-        </a>
+        </Link>
       </div>
     </div>
   )

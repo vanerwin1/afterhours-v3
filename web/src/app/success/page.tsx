@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, Suspense } from 'react'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { CheckCircle2, Mail, Clock, Headphones, ArrowLeft } from 'lucide-react'
 
@@ -137,7 +138,7 @@ function SuccessContent() {
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <a
+          <Link
             href="/"
             className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl
                        border border-[rgba(79,142,247,0.25)] text-[#ddeeff] text-sm font-medium
@@ -146,7 +147,7 @@ function SuccessContent() {
           >
             <ArrowLeft size={16} strokeWidth={2} />
             Back to home
-          </a>
+          </Link>
           <a
             href={`mailto:hello@afterhours.ai?subject=Onboarding - ${PLAN_NAMES[plan] ?? 'Starter'} Plan`}
             className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Phone, Calendar, CheckCircle2, MessageSquare } from 'lucide-react'
 
@@ -106,6 +106,19 @@ export function DemoTranscript() {
     }
   }, [visibleCount, showTyping])
 
+  const runTranscript = useCallback(() => {
+    TRANSCRIPT.forEach((msg, i) => {
+      // Show typing before each AI message
+      if (msg.role === 'ai' && i > 0) {
+        setTimeout(() => setShowTyping(true), msg.delay - 600)
+        setTimeout(() => setShowTyping(false), msg.delay - 100)
+      }
+      setTimeout(() => setVisibleCount(i + 1), msg.delay)
+    })
+    // Show outcome after last message
+    setTimeout(() => setShowOutcome(true), TRANSCRIPT[TRANSCRIPT.length - 1].delay + 1000)
+  }, [])
+
   // Replay animation when section is in view
   useEffect(() => {
     const el = containerRef.current
@@ -121,20 +134,7 @@ export function DemoTranscript() {
     )
     io.observe(el)
     return () => io.disconnect()
-  }, [started])
-
-  function runTranscript() {
-    TRANSCRIPT.forEach((msg, i) => {
-      // Show typing before each AI message
-      if (msg.role === 'ai' && i > 0) {
-        setTimeout(() => setShowTyping(true), msg.delay - 600)
-        setTimeout(() => setShowTyping(false), msg.delay - 100)
-      }
-      setTimeout(() => setVisibleCount(i + 1), msg.delay)
-    })
-    // Show outcome after last message
-    setTimeout(() => setShowOutcome(true), TRANSCRIPT[TRANSCRIPT.length - 1].delay + 1000)
-  }
+  }, [started, runTranscript])
 
   return (
     <section
