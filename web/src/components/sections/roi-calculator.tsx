@@ -27,7 +27,7 @@ export function ROICalculator() {
       : `$${n}`
 
   return (
-    <section className="relative py-24 px-6 lg:px-12 bg-[#020b14]">
+    <section id="roi" className="relative py-24 px-6 lg:px-12 bg-[#020b14]">
       {/* Background glow */}
       <div
         className="absolute inset-0 pointer-events-none"

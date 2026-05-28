@@ -5,6 +5,7 @@ import { PainStrip }        from '@/components/sections/pain-strip'
 import { HowItWorks }       from '@/components/sections/how-it-works'
 import { Industries }       from '@/components/sections/industries'
 import { ROICalculator }    from '@/components/sections/roi-calculator'
+import { LogoStrip }        from '@/components/sections/logo-strip'
 import { DemoTranscript }   from '@/components/sections/demo-transcript'
 import { Comparison }       from '@/components/sections/comparison'
 import { Testimonials }     from '@/components/sections/testimonials'
@@ -36,6 +37,7 @@ export default function HomePage() {
         // using it as a scroll-length wrapper, not a full-viewport hero
         className="min-h-0 bg-transparent"
       >
+        <LogoStrip />
         <HowItWorks />
         <DemoTranscript />
         <Industries />

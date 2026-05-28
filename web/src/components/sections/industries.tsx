@@ -25,7 +25,7 @@ const INDUSTRIES = [
 
 export function Industries() {
   return (
-    <section className="relative py-20 px-6 lg:px-12 bg-[#000507]">
+    <section id="industries" className="relative py-20 px-6 lg:px-12 bg-[#000507]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div

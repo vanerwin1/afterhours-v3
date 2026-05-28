@@ -156,14 +156,15 @@ export function Comparison() {
           </p>
         </motion.div>
 
-        {/* Table */}
+        {/* Table — overflow-x-auto for mobile */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="rounded-2xl overflow-hidden border border-[rgba(79,142,247,0.15)]"
+          className="rounded-2xl overflow-x-auto border border-[rgba(79,142,247,0.15)]"
         >
+        <div className="min-w-[640px]">
           {/* Header row */}
           <div className="grid grid-cols-[1fr_auto_auto_auto] gap-px bg-[rgba(79,142,247,0.08)]">
             <div className="bg-[#060d1b] px-6 py-4" />
@@ -245,6 +246,7 @@ export function Comparison() {
               </div>
             </div>
           ))}
+        </div>{/* end min-w-[640px] */}
         </motion.div>
 
         {/* Legend */}
