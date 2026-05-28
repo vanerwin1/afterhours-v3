@@ -1,5 +1,35 @@
-# Keep the API key out of git
+# ── Secrets — NEVER commit these ────────────────────────────────────────────
 .env
+.env.*
 *.env
+!*.env.example
+
+# ── Dev environment ──────────────────────────────────────────────────────────
 node_modules/
 .DS_Store
+.next/
+.turbo/
+__pycache__/
+*.pyc
+*.pyo
+
+# ── Binaries — download separately ──────────────────────────────────────────
+ngrok
+/tmp/cloudflared
+
+# ── Build outputs ────────────────────────────────────────────────────────────
+*.tsbuildinfo
+dist/
+.cache/
+
+# ── Claude Code internal ──────────────────────────────────────────────────────
+.claude/
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+*.jsonl
+subscriptions.jsonl
+
+# ── NOTE: tts-proxy.py no longer contains hardcoded secrets.
+# All keys are loaded from .env at runtime. Safe to commit.
+# tts-proxy.py

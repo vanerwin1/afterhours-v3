@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome to AfterHours.AI</title>
+  <meta name="robots" content="noindex"/><!-- Don't index this page -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #000507;
+      --surface:     #060d1b;
+      --blue:        #4f8ef7;
+      --violet:      #a78bfa;
+      --green:       #22d3a0;
+      --muted:       #7a94b8;
+      --border:      rgba(79,142,247,0.18);
+      --card:        rgba(6,13,27,0.95);
+    }
+
+    html, body {
+      min-height: 100dvh;
+      background: var(--bg);
+      color: #ddeeff;
+      font-family: 'DM Sans', 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Aurora bg ─────────────────────────────────────────────────── */
+    .aurora {
+      position: fixed; inset: 0; z-index: 0; overflow: hidden;
+      pointer-events: none;
+    }
+    .aurora-inner {
+      position: absolute; inset: -10px;
+      background-image:
+        repeating-linear-gradient(100deg,#000 0%,#000 7%,transparent 10%,transparent 12%,#000 16%),
+        repeating-linear-gradient(100deg,#2563eb 10%,#818cf8 15%,#60a5fa 20%,#a78bfa 25%,#3b82f6 30%);
+      background-size: 300%, 200%;
+      filter: blur(16px); opacity: 0.20;
+      animation: aurora 60s linear infinite;
+      will-change: background-position;
+    }
+    @keyframes aurora {
+      from { background-position: 50% 50%, 50% 50%; }
+      to   { background-position: 350% 50%, 350% 50%; }
+    }
+    @media (prefers-reduced-motion: reduce) { .aurora-inner { animation: none; } }
+
+    /* ── Layout ─────────────────────────────────────────────────────── */
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100dvh;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 40px 20px;
+    }
+
+    /* ── Logo bar ───────────────────────────────────────────────────── */
+    .logo-bar {
+      position: absolute; top: 28px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 10px; white-space: nowrap;
+    }
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, #4f8ef7 0%, #a78bfa 100%);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 0.05em; color: #fff;
+    }
+
+    /* ── Card ───────────────────────────────────────────────────────── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 48px 40px;
+      max-width: 520px; width: 100%;
+      text-align: center;
+      box-shadow: 0 0 80px rgba(79,142,247,0.10), 0 24px 64px rgba(0,0,0,0.6);
+    }
+
+    /* ── Check animation ────────────────────────────────────────────── */
+    .check-wrap {
+      width: 80px; height: 80px; margin: 0 auto 28px;
+      position: relative;
+    }
+    .check-ring {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,211,160,0.18) 0%, transparent 70%);
+      border: 2px solid var(--green);
+      display: flex; align-items: center; justify-content: center;
+      animation: ring-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .check-ring svg { width: 36px; height: 36px; }
+    .check-path {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: draw-check 0.5s 0.3s ease forwards;
+    }
+    @keyframes ring-pop {
+      from { transform: scale(0.4); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    @keyframes draw-check {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 7vw, 44px);
+      letter-spacing: 0.04em; line-height: 1;
+      color: #fff; margin-bottom: 10px;
+    }
+    .subline {
+      font-size: 15px; color: var(--muted);
+      line-height: 1.6; margin-bottom: 32px;
+    }
+
+    /* ── Plan badge ─────────────────────────────────────────────────── */
+    .plan-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.3);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 14px; font-weight: 600; color: var(--blue);
+      margin-bottom: 32px;
+      letter-spacing: 0.01em;
+    }
+    .plan-badge span { color: var(--muted); font-weight: 400; }
+
+    /* ── Steps ──────────────────────────────────────────────────────── */
+    .steps { text-align: left; margin-bottom: 36px; }
+    .steps-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      color: var(--muted); text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(79,142,247,0.15);
+      border: 1px solid rgba(79,142,247,0.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; color: var(--blue);
+      margin-top: 1px;
+    }
+    .step-body { flex: 1; }
+    .step-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+    .step-desc  { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .step-desc a { color: var(--blue); text-decoration: none; }
+    .step-desc a:hover { text-decoration: underline; }
+
+    /* ── Buttons ────────────────────────────────────────────────────── */
+    .btn-primary {
+      display: block; width: 100%;
+      padding: 14px 24px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue) 0%, #7078C6 100%);
+      color: #fff; font-size: 15px; font-weight: 600;
+      border: none; cursor: pointer; text-decoration: none;
+      text-align: center;
+      transition: filter 0.2s;
+      margin-bottom: 12px;
+    }
+    .btn-primary:hover { filter: brightness(1.1); }
+
+    .btn-secondary {
+      display: block; width: 100%;
+      padding: 13px 24px; border-radius: 12px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted); font-size: 14px; font-weight: 500;
+      cursor: pointer; text-decoration: none;
+      text-align: center;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
+
+    /* ── Loading state ──────────────────────────────────────────────── */
+    .loading-state { padding: 20px 0; color: var(--muted); font-size: 14px; }
+    .spinner {
+      display: inline-block; width: 18px; height: 18px;
+      border: 2px solid rgba(79,142,247,0.3);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Error state ────────────────────────────────────────────────── */
+    .error-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(251,113,133,0.12);
+      border: 1px solid rgba(251,113,133,0.3);
+      border-radius: 100px; padding: 8px 18px;
+      font-size: 13px; color: #fb7185;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 560px) {
+      .card { padding: 36px 24px 28px; border-radius: 18px; }
+      .headline { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true">
+  <div class="aurora-inner"></div>
+</div>
+
+<div class="page">
+
+  <div class="logo-bar">
+    <div class="logo-icon">🎙️</div>
+    <div class="logo-text">AFTERHOURS.AI</div>
+  </div>
+
+  <!-- ── Loading state (shown while verifying with Stripe) ── -->
+  <div class="card" id="loading-card">
+    <div class="loading-state">
+      <span class="spinner"></span>Verifying your subscription…
+    </div>
+  </div>
+
+  <!-- ── Success state ── -->
+  <div class="card" id="success-card" style="display:none;">
+    <div class="check-wrap">
+      <div class="check-ring">
+        <svg viewBox="0 0 36 36" fill="none">
+          <polyline class="check-path" points="8,18 15,25 28,11"
+            stroke="#22d3a0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="headline">YOU'RE IN!</div>
+    <div class="subline">Your subscription is confirmed. Here's what happens next.</div>
+
+    <div class="plan-badge" id="plan-badge">
+      AfterHours.AI &nbsp;<span>·</span>&nbsp; <span id="plan-label">Plan</span>
+    </div>
+
+    <div class="steps">
+      <div class="steps-label">Next steps</div>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Check your inbox</div>
+          <div class="step-desc">A receipt from Stripe + a welcome email from our team is on its way. Check spam if you don't see it in 5 minutes.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Book your onboarding call</div>
+          <div class="step-desc">We'll set up your AI receptionist, configure your script, and connect your phone number — usually done within 24 hours.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Go live</div>
+          <div class="step-desc">Forward your after-hours calls to your new AfterHours number. Your AI receptionist will handle everything from there.</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="afterhours-standalone.html" class="btn-primary">Back to Home</a>
+    <a href="mailto:hello@afterhours.ai?subject=Onboarding%20-%20New%20subscriber"
+       class="btn-secondary">Contact onboarding team</a>
+  </div>
+
+  <!-- ── Error state ── -->
+  <div class="card" id="error-card" style="display:none;">
+    <div class="error-badge">⚠ Subscription not confirmed</div>
+    <div class="headline" style="font-size:30px; margin-bottom:10px;">SOMETHING WENT WRONG</div>
+    <div class="subline" style="margin-bottom:28px;">
+      We couldn't verify your subscription. If you completed checkout, don't worry — your payment went through and we'll reach out within an hour.
+    </div>
+    <a href="mailto:hello@afterhours.ai?subject=Subscription%20verification%20issue"
+       class="btn-primary">Contact support</a>
+    <a href="afterhours-standalone.html#pricing" class="btn-secondary">Back to pricing</a>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+(function() {
+  var PAYMENT_URL = 'http://localhost:3337';
+
+  var PLAN_DISPLAY = {
+    starter:  'Starter — $297/mo',
+    pro:      'Pro — $497/mo',
+    business: 'Business — $897/mo',
+    agency:   'Agency — $1,497/mo',
+  };
+
+  function showCard(id) {
+    ['loading-card','success-card','error-card'].forEach(function(c) {
+      document.getElementById(c).style.display = c === id ? '' : 'none';
+    });
+  }
+
+  function qs(key) {
+    try {
+      return new URLSearchParams(window.location.search).get(key) || '';
+    } catch(e) { return ''; }
+  }
+
+  var sessionId = qs('session_id');
+  var plan      = qs('plan');
+
+  // Update plan badge regardless of verification result
+  if (plan && PLAN_DISPLAY[plan]) {
+    document.getElementById('plan-label').textContent = PLAN_DISPLAY[plan];
+  }
+
+  if (!sessionId) {
+    // Landed here without a session_id — show success anyway (could be a direct link)
+    showCard('success-card');
+    return;
+  }
+
+  // Verify with payment server
+  fetch(PAYMENT_URL + '/subscription?session_id=' + encodeURIComponent(sessionId))
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.payment_status === 'paid' || d.status === 'complete') {
+        showCard('success-card');
+      } else if (d.status === 'open') {
+        // Payment still processing — show success optimistically
+        showCard('success-card');
+      } else {
+        showCard('error-card');
+      }
+    })
+    .catch(function() {
+      // Payment server unreachable — show success anyway.
+      // The Stripe redirect only fires on successful payment.
+      showCard('success-card');
+    });
+})();
+</script>
+
+</body>
+</html>
