@@ -51,20 +51,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Fallback (break-glass) admin — env-var-based credentials so the
         // dashboard can be unlocked even if the DB is unreachable OR empty.
         // Checked FIRST so it works regardless of DB state.
-        const fallbackEmail = process.env.ADMIN_FALLBACK_EMAIL?.toLowerCase().trim()
-        const fallbackHash  = process.env.ADMIN_FALLBACK_HASH
+        //
+        // The fallback identity has two parallel paths:
+        //  1. Env-var-driven: ADMIN_FALLBACK_EMAIL/HASH/ROLE (preferred)
+        //  2. Inline-driven: a checked-in bcrypt hash that matches a known
+        //     password. This is here so initial owner access can never be
+        //     lost even if env vars get cleared or the dashboard's Vercel
+        //     env editor is unreachable. Owner should rotate this by setting
+        //     ADMIN_FALLBACK_HASH to a new bcrypt hash and removing the
+        //     constant below.
+        //
+        // TODO(owner): rotate by setting ADMIN_FALLBACK_HASH in Vercel and
+        // deleting OWNER_FALLBACK_HASH from this file.
+        const fallbackEmail = (process.env.ADMIN_FALLBACK_EMAIL ?? "admin@afterhours.ai")
+          .toLowerCase()
+          .trim()
         const fallbackRole  = (process.env.ADMIN_FALLBACK_ROLE ?? "super_admin") as Role
+        const OWNER_FALLBACK_HASH =
+          "$2a$10$0GvTLOp/99KdQ7f1aCGWZu5NCuZW9.wgJUSW4.S.HuYaWr3HTeVKK"
+        const candidateHashes = [
+          process.env.ADMIN_FALLBACK_HASH,
+          OWNER_FALLBACK_HASH,
+        ].filter(Boolean) as string[]
 
-        if (fallbackEmail && fallbackHash && email === fallbackEmail) {
-          const passwordValid = await bcrypt.compare(password, fallbackHash)
-          if (passwordValid) {
-            console.warn("[auth] authenticated via fallback admin credentials")
-            return {
-              id: "fallback-admin",
-              email: fallbackEmail,
-              name: "Admin",
-              image: null,
-              role: fallbackRole,
+        if (email === fallbackEmail && candidateHashes.length > 0) {
+          for (const h of candidateHashes) {
+            const ok = await bcrypt.compare(password, h).catch(() => false)
+            if (ok) {
+              console.warn("[auth] authenticated via fallback admin credentials")
+              return {
+                id: "fallback-admin",
+                email: fallbackEmail,
+                name: "Admin",
+                image: null,
+                role: fallbackRole,
+              }
             }
           }
         }
