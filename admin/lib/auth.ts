@@ -48,6 +48,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             .catch(() => {})
         }
 
+        // Fallback (break-glass) admin — env-var-based credentials so the
+        // dashboard can be unlocked even if the DB is unreachable OR empty.
+        // Checked FIRST so it works regardless of DB state.
+        const fallbackEmail = process.env.ADMIN_FALLBACK_EMAIL?.toLowerCase().trim()
+        const fallbackHash  = process.env.ADMIN_FALLBACK_HASH
+        const fallbackRole  = (process.env.ADMIN_FALLBACK_ROLE ?? "super_admin") as Role
+
+        if (fallbackEmail && fallbackHash && email === fallbackEmail) {
+          const passwordValid = await bcrypt.compare(password, fallbackHash)
+          if (passwordValid) {
+            console.warn("[auth] authenticated via fallback admin credentials")
+            return {
+              id: "fallback-admin",
+              email: fallbackEmail,
+              name: "Admin",
+              image: null,
+              role: fallbackRole,
+            }
+          }
+        }
+
         try {
           const user = await prisma.user.findUnique({ where: { email } })
 
