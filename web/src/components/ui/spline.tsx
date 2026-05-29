@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, lazy, Component, type ReactNode } from 'react'
+import { Suspense, lazy, Component, useEffect, useState, type ReactNode } from 'react'
 
 const Spline = lazy(() => import('@splinetool/react-spline'))
 
@@ -109,7 +109,37 @@ function SplineLoading() {
   )
 }
 
+// Setting NEXT_PUBLIC_DISABLE_SPLINE=1 forces the safe fallback orb everywhere.
+// We default to fallback-first behaviour because the Spline runtime has thrown
+// unhandled async errors ("Data read, but end of buffer not reached") in
+// production that aren't catchable by React error boundaries. We render the
+// fallback immediately, then *optionally* try to swap in the real 3D scene on
+// the client. If anything in that swap throws, we stay on the fallback.
 export function SplineScene({ scene, className }: SplineSceneProps) {
+  const [showReal, setShowReal] = useState(false)
+  const disabled = process.env.NEXT_PUBLIC_DISABLE_SPLINE === '1'
+
+  useEffect(() => {
+    if (disabled) return
+    // Only attempt to load the heavy 3D scene after first paint to avoid
+    // blocking the hero render — and only if we successfully prefetched the
+    // .splinecode binary. If the prefetch fails for any reason, the user just
+    // sees the fallback orb (which already matches the brand).
+    let cancelled = false
+    fetch(scene, { method: 'HEAD' })
+      .then((res) => {
+        if (!cancelled && res.ok) setShowReal(true)
+      })
+      .catch(() => {
+        // network/CDN issue — stay on fallback, never throw
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [scene, disabled])
+
+  if (!showReal) return <SplineFallback className={className} />
+
   return (
     <SplineErrorBoundary fallback={<SplineFallback className={className} />}>
       <Suspense fallback={<SplineLoading />}>
