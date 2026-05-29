@@ -223,3 +223,34 @@ model Notification {
   @@index([userId])
   @@index([createdAt])
 }
+
+// ── Leads ─────────────────────────────────────────────────────────────────────
+// Captured from the public website — contact forms, demo requests, ROI
+// calculator submissions, "talk to sales", etc. Inserted via the
+// /api/leads endpoint with an API-key check (so anonymous web visitors
+// can submit without a session). Read by admins for follow-up.
+model Lead {
+  id          String   @id @default(cuid())
+  name        String?
+  email       String
+  phone       String?
+  company     String?
+  industry    String?  // dental, legal, home-services, etc.
+  message     String?  @db.Text
+  source      String   @default("website") // website | referral | partner | inbound | other
+  utm         Json?    // utm_source / medium / campaign / term / content
+  referrer    String?
+  pagePath    String?  // /, /pricing, /demo, etc.
+  status      String   @default("new") // new | contacted | qualified | won | lost
+  assignedTo  String?  // userId of the team member who owns this lead
+  notes       String?  @db.Text
+  ip          String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+  @@index([source])
+}

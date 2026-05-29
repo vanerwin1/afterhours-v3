@@ -12,6 +12,7 @@ import { Testimonials }     from '@/components/sections/testimonials'
 import { Pricing }          from '@/components/sections/pricing'
 import { FAQ }              from '@/components/sections/faq'
 import { CTABand }          from '@/components/sections/cta-band'
+import { LeadForm }         from '@/components/sections/lead-form'
 import { AuroraBackground } from '@/components/ui/aurora-background'
 
 export default function HomePage() {
@@ -46,6 +47,11 @@ export default function HomePage() {
         <Testimonials />
         <Pricing />
         <FAQ />
+        <section id="contact" className="relative py-24 px-6 lg:px-12 bg-[#000507]">
+          <div className="max-w-2xl mx-auto relative z-10">
+            <LeadForm />
+          </div>
+        </section>
         <CTABand />
         <Footer />
       </AuroraBackground>

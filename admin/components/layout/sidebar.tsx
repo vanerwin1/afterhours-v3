@@ -16,6 +16,7 @@ import {
   LogOut,
   Calendar,
   UserCircle,
+  Mail,
 } from "lucide-react"
 import { cn, getInitials } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -43,6 +44,11 @@ const NAV_SECTIONS: { section: string; items: NavItem[] }[] = [
   {
     section: "Captures",
     items: [
+      {
+        label: "Leads",
+        href: "/dashboard/leads",
+        icon: <Mail className="h-4 w-4" />,
+      },
       {
         label: "Bookings",
         href: "/dashboard/bookings",

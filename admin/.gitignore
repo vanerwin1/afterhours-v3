@@ -14,8 +14,9 @@ build/
 node_modules/
 .npm
 
-# ── Prisma generated ─────────────────────────────────────────────────────────
-prisma/migrations/
+# ── Prisma ─────────────────────────────────────────────────────────────────────
+# Migrations MUST be committed so Vercel deploys can `prisma migrate deploy`.
+# Only Prisma's generated client (inside node_modules) is excluded.
 
 # ── OS / Editor ──────────────────────────────────────────────────────────────
 .DS_Store
