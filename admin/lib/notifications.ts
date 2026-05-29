@@ -1,7 +1,16 @@
 import { Resend } from "resend"
 import { prisma } from "./prisma"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy Resend init — the Resend constructor throws when the API key is
+// missing, which crashed `next build` at module-load time for every route
+// that imported this file. Defer construction until an email is actually
+// being sent, so builds (and routes that never email) work without the key.
+let _resend: Resend | null = null
+function getResend(): Resend | null {
+  if (!process.env.RESEND_API_KEY) return null
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY)
+  return _resend
+}
 const FROM = process.env.RESEND_FROM ?? "AfterHours Admin <admin@afterhours.ai>"
 
 export async function sendSlackAlert(
@@ -19,7 +28,8 @@ export async function sendSlackAlert(
 }
 
 export async function sendEmailAlert(to: string, subject: string, html: string) {
-  if (!process.env.RESEND_API_KEY) return
+  const resend = getResend()
+  if (!resend) return
   await resend.emails.send({ from: FROM, to, subject, html }).catch(console.error)
 }
 
