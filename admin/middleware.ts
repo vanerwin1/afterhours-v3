@@ -23,6 +23,13 @@ export default auth(async function middleware(req) {
   const PUBLIC = ["/login", "/api/auth", "/api/webhooks", "/api/debug"]
   if (PUBLIC.some((p) => pathname.startsWith(p))) return NextResponse.next()
 
+  // 2b. /api/leads — the route handler does its own auth.
+  //     POST uses an API-key header (called by the public website).
+  //     GET/PATCH use the session check inside the handler.
+  //     Letting middleware enforce session here would block POSTs even
+  //     when they carry a valid API key.
+  if (pathname === "/api/leads") return NextResponse.next()
+
   // 3. Auth check
   const session = (req as typeof req & { auth?: { user?: { role?: string } } }).auth
   if (!session?.user) {
